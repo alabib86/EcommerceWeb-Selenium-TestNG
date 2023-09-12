@@ -112,23 +112,4 @@ public class SignUpLoginTCS extends BaseTest {
         homePage.signOut();
     }
 
-
-    @DataProvider
-    public Object[][] getSignUpData() {
-
-        HashMap<String, String> map = new HashMap<>();
-        map.put("firstName", "ahmed");
-        map.put("lastName", "labib");
-        map.put("email", "testerjob86@gmail.com");
-        map.put("password", "Ahmed@123");
-        map.put("confirmPass", "Ahmed@123");
-
-        Object[][] objects = new Object[][]{{map},};
-
-
-        return objects;
-    }
-
-
-
 }
