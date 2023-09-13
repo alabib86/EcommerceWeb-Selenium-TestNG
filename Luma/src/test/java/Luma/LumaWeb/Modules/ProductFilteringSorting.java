@@ -76,4 +76,13 @@ public class ProductFilteringSorting extends BaseTest {
         Assert.assertTrue(productPage.getMoreInformationMaterial());
     }
 
+    @Test(testName = "Validate user can filter product by two options")
+    public void ValidSortTC02011() {
+        CategoryProductsPage categoryProductsPage = homePage.goToMenTopsHoodies();
+        categoryProductsPage.selectShoppingOption("COLOR");
+        categoryProductsPage.colorCheck("Red");
+        categoryProductsPage.selectShoppingOption("SALE");
+        Assert.assertEquals(categoryProductsPage.saleCheck(),2);
+    }
+
 }

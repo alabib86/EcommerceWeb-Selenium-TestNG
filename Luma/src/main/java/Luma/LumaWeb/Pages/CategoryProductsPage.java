@@ -95,7 +95,7 @@ public class CategoryProductsPage extends AbstractComponent {
 
     public boolean colorCheck(String color) {
         waitToAppearElement(driver.findElement(By.cssSelector(".swatch-option.color[tabindex='-1'][option-label='" + color + "']")));
-        driver.findElement(By.cssSelector(".swatch-option.color[tabindex='-1'][option-label='Green']")).click();
+        driver.findElement(By.cssSelector(".swatch-option.color[tabindex='-1'][option-label='"+color+"']")).click();
         waitToAppearElements(productListResult);
         List<WebElement> colorLabel = driver.findElements(By.cssSelector(".swatch-option.color[tabindex='0'][option-label='" + color + "']"));
         boolean checked = colorLabel.stream().allMatch(w -> w.getAttribute("aria-checked").equals("true"));
@@ -128,5 +128,10 @@ public class CategoryProductsPage extends AbstractComponent {
         waitToAppearElement(driver.findElement(By.cssSelector(".filter-value")));
         driver.findElement(By.cssSelector(".product-item-info")).click();
         return productPage;
+    }
+    public int saleCheck(){
+        driver.findElement(By.partialLinkText("Yes")).click();
+        List<WebElement> items =driver.findElements(By.cssSelector("ol.items:nth-child(2) .item"));
+        return items.size();
     }
 }
