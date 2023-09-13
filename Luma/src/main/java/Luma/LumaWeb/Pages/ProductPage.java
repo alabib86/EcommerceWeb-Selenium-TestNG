@@ -1,6 +1,7 @@
 package Luma.LumaWeb.Pages;
 
 import Luma.LumaWeb.Component.AbstractComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -61,6 +62,19 @@ public class ProductPage extends AbstractComponent {
     private WebElement rightArrow;
     @FindBy(css = ".fotorama__arr.fotorama__arr--prev")
     private WebElement leftArrow;
+    @FindBy(id = "tab-label-additional-title")
+    private WebElement moreInformationTab;
 
+    public String getProductTitle() {
+        waitToAppearElement(productNameTitle);
+        return productNameTitle.getText();
+    }
 
+    public Boolean getMoreInformationMaterial() {
+        waitToAppearElement(moreInformationTab);
+        moreInformationTab.click();
+        String mat = driver.findElement(By.cssSelector("tr:nth-child(2) .col.data")).getText();
+        Boolean check = mat.contains("Organic Cotton");
+        return check;
+    }
 }

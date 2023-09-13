@@ -33,6 +33,10 @@ public class AbstractComponent {
     private WebElement whatsNewTab;
     @FindBy(id = "ui-id-4")
     private WebElement womenTab;
+    @FindBy(id = "ui-id-10")
+    private WebElement womenBottomTab;
+    @FindBy(id = "ui-id-15")
+    private WebElement womenBottomPantsTab;
     @FindBy(id = "ui-id-5")
     private WebElement menTab;
     @FindBy(id = "ui-id-17")
@@ -41,6 +45,8 @@ public class AbstractComponent {
     private WebElement menTopHoodieTab;
     @FindBy(id = "ui-id-6")
     private WebElement gearTab;
+    @FindBy(id = "ui-id-27")
+    private WebElement watchesTab;
     @FindBy(id = "ui-id-7")
     private WebElement trainingTab;
     @FindBy(id = "ui-id-8")
@@ -105,10 +111,17 @@ public class AbstractComponent {
         webDriverWait.until(p -> webElement.isEnabled());
     }
 
+    public void waitAttributeToContains(WebElement webElement, String attribute, String value) {
+        WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(5));
+        w.until(ExpectedConditions.attributeContains(webElement, attribute, value));
+    }
+
     public void moveToElement(WebElement webElement) {
         Actions a = new Actions(driver);
         a.moveToElement(webElement).build().perform();
-    }public void moveToElementAndClick(WebElement webElement) {
+    }
+
+    public void moveToElementAndClick(WebElement webElement) {
         Actions a = new Actions(driver);
         a.moveToElement(webElement).click().build().perform();
     }
@@ -135,8 +148,23 @@ public class AbstractComponent {
         moveToElement(menTopTab);
         waitToAppearElement(menTopHoodieTab);
         moveToElementAndClick(menTopHoodieTab);
-
         return categoryProductsPage;
     }
 
+    public CategoryProductsPage goToWatches() {
+        CategoryProductsPage categoryProductsPage = new CategoryProductsPage(driver);
+        moveToElement(gearTab);
+        waitToAppearElement(watchesTab);
+        moveToElementAndClick(watchesTab);
+        return categoryProductsPage;
+    }
+    public CategoryProductsPage goToWomenBottomPants() {
+        CategoryProductsPage categoryProductsPage = new CategoryProductsPage(driver);
+        moveToElement(womenTab);
+        waitToAppearElement(womenBottomTab);
+        moveToElement(womenBottomTab);
+        waitToAppearElement(womenBottomPantsTab);
+        moveToElementAndClick(womenBottomPantsTab);
+        return categoryProductsPage;
+    }
 }
