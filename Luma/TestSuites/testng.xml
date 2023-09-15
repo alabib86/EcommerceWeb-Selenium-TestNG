@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="Luma.LumaWeb.Component.Listeners"/>
+    </listeners>
+    <test name="AllTest">
+        <classes>
+            <class name="Luma.LumaWeb.Modules.CartCompareWishTCS"/>
+            <class name="Luma.LumaWeb.Modules.CheckOutPayment"/>
+            <class name="Luma.LumaWeb.Modules.ProductFilteringSorting"/>
+            <class name="Luma.LumaWeb.Modules.SignUpLoginTCS"/>
+        </classes>
+    </test>
+</suite>

@@ -3,7 +3,13 @@ package Luma.LumaWeb.Component;
 import Luma.LumaWeb.Pages.HomePage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 
@@ -15,8 +21,35 @@ public class BaseTest {
     public HomePage homePage;
     public void initializeDriver(){
 
-        WebDriverManager.firefoxdriver().setup();
-        driver=new FirefoxDriver();
+
+        String browserName = System.getProperty("browser") != null ?
+                System.getProperty("browser") :"firefox";
+
+        if (browserName.contains("firefox")) {
+            FirefoxOptions options = new FirefoxOptions();
+            WebDriverManager.firefoxdriver().setup();
+
+            if (browserName.contains("headless")) {
+                options.addArguments("headless");
+            }
+            driver = new FirefoxDriver(options);
+
+        } else if (browserName.contains("chrome")) {
+            ChromeOptions options = new ChromeOptions();
+            WebDriverManager.chromedriver().setup();
+            if (browserName.contains("headless")) {
+                options.addArguments("headless");
+            }
+            driver = new ChromeDriver(options);
+
+        } else if (browserName.contains("edge")) {
+            EdgeOptions options = new EdgeOptions();
+            WebDriverManager.edgedriver().setup();
+            if (browserName.contains("headless")) {
+                options.addArguments("headless");
+            }
+            driver = new EdgeDriver(options);
+        }
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
     }
@@ -31,10 +64,10 @@ public class BaseTest {
         return homePage;
     }
 
-//    @AfterMethod
-//    public void closeBrowser() {
-//        driver.close();
-//    }
+    @AfterMethod
+    public void closeBrowser() {
+        driver.close();
+    }
 
     @DataProvider
     public Object[][] getSignUpData() {

@@ -1,5 +1,6 @@
 package Luma.LumaWeb.Component;
 
+import Luma.LumaWeb.Pages.CartPage;
 import Luma.LumaWeb.Pages.CategoryProductsPage;
 import Luma.LumaWeb.Pages.LoginPage;
 import Luma.LumaWeb.Pages.SignUpPage;
@@ -29,8 +30,6 @@ public class AbstractComponent {
     @FindBy(linkText = "Sign In")
     private WebElement signInPageBtn;
 
-    @FindBy(id = "ui-id-3")
-    private WebElement whatsNewTab;
     @FindBy(id = "ui-id-4")
     private WebElement womenTab;
     @FindBy(id = "ui-id-10")
@@ -47,49 +46,28 @@ public class AbstractComponent {
     private WebElement gearTab;
     @FindBy(id = "ui-id-27")
     private WebElement watchesTab;
-    @FindBy(id = "ui-id-7")
-    private WebElement trainingTab;
-    @FindBy(id = "ui-id-8")
-    private WebElement saleTab;
     @FindBy(id = "search")
     private WebElement searchBar;
     @FindBy(css = ".qs-option-name")
     private List<WebElement> searchResultList;
     @FindBy(css = ".showcart")
     private WebElement cartIcon;
+    @FindBy(css = ".counter-number")
+    private WebElement cartItemCount;
+    @FindBy(css = ".subtitle.empty")
+    private WebElement cartEmptyMsg;
     @FindBy(css = ".panel.header button.action.switch")
     private WebElement accountArrowDropdown;
     @FindBy(partialLinkText = "Sign O")
     private WebElement signOutBtn;
     @FindBy(css = ".panel.header .logged-in")
     private WebElement greetingMsg;
+
     By greetingMsgBy = By.cssSelector(".panel.header .logged-in");
     By greetingMsgNotLoggedBy = By.cssSelector(".not-logged-in");
 
 
-    public SignUpPage goToSignUpPage() {
-        SignUpPage signUpPage = new SignUpPage(driver);
-        createAccountPageBtn.click();
-        return signUpPage;
-    }
-
-    public LoginPage goToLoginPage() {
-        LoginPage loginPage = new LoginPage(driver);
-        signInPageBtn.click();
-        return loginPage;
-    }
-
-    public String getGreetingMsg() {
-        waitTextToBe(greetingMsgBy, "Welcome, ahmed labib!");
-        return greetingMsg.getText();
-    }
-
-    public void signOut() {
-        waitTextToBe(greetingMsgBy, "Welcome, ahmed labib!");
-        accountArrowDropdown.click();
-        waitToAppearElement(signOutBtn);
-        signOutBtn.click();
-    }
+    // waits
 
     public void waitToAppearElement(WebElement webElement) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
@@ -116,6 +94,8 @@ public class AbstractComponent {
         w.until(ExpectedConditions.attributeContains(webElement, attribute, value));
     }
 
+    // actions
+
     public void moveToElement(WebElement webElement) {
         Actions a = new Actions(driver);
         a.moveToElement(webElement).build().perform();
@@ -126,10 +106,40 @@ public class AbstractComponent {
         a.moveToElement(webElement).click().build().perform();
     }
 
+    // utilities
+
     public int getRandomNumber() {
         Random random = new Random();
         return random.nextInt(1000);
     }
+
+    //  sign up
+
+    public SignUpPage goToSignUpPage() {
+        SignUpPage signUpPage = new SignUpPage(driver);
+        createAccountPageBtn.click();
+        return signUpPage;
+    }
+
+    //  logIn & logOut
+
+    public LoginPage goToLoginPage() {
+        LoginPage loginPage = new LoginPage(driver);
+        signInPageBtn.click();
+        return loginPage;
+    }
+    public void signOut() {
+        waitTextToBe(greetingMsgBy, "Welcome, ahmed labib!");
+        accountArrowDropdown.click();
+        waitToAppearElement(signOutBtn);
+        signOutBtn.click();
+    }
+    public String getGreetingMsg() {
+        waitTextToBe(greetingMsgBy, "Welcome, ahmed labib!");
+        return greetingMsg.getText();
+    }
+
+    // search
 
     public CategoryProductsPage searchForProduct(String word, String result) {
         CategoryProductsPage categoryProductsPage = new CategoryProductsPage(driver);
@@ -140,6 +150,8 @@ public class AbstractComponent {
         product.click();
         return categoryProductsPage;
     }
+
+    // product bar
 
     public CategoryProductsPage goToMenTopsHoodies() {
         CategoryProductsPage categoryProductsPage = new CategoryProductsPage(driver);
@@ -158,6 +170,7 @@ public class AbstractComponent {
         moveToElementAndClick(watchesTab);
         return categoryProductsPage;
     }
+
     public CategoryProductsPage goToWomenBottomPants() {
         CategoryProductsPage categoryProductsPage = new CategoryProductsPage(driver);
         moveToElement(womenTab);
@@ -166,5 +179,24 @@ public class AbstractComponent {
         waitToAppearElement(womenBottomPantsTab);
         moveToElementAndClick(womenBottomPantsTab);
         return categoryProductsPage;
+    }
+
+    // cart
+
+    public void goToCartDialog() {
+        waitToAppearElement(cartIcon);
+        cartIcon.click();
+    }
+
+    public CartPage goToCartPage() {
+        CartPage cartPage = new CartPage(driver);
+        return cartPage;
+    }
+
+    public String getCartItemCount() {
+        return cartItemCount.getText();
+    }
+    public String getCartEmptyMsg() {
+        return cartEmptyMsg.getText();
     }
 }
