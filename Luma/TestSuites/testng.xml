@@ -4,7 +4,7 @@
     <listeners>
         <listener class-name="Luma.LumaWeb.Component.Listeners"/>
     </listeners>
-    <test name="AllTest">
+    <test name="User Acceptance TCS">
         <classes>
             <class name="Luma.LumaWeb.Modules.CartCompareWishTCS"/>
             <class name="Luma.LumaWeb.Modules.CheckOutPayment"/>

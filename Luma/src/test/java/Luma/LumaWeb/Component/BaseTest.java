@@ -23,7 +23,7 @@ public class BaseTest {
 
 
         String browserName = System.getProperty("browser") != null ?
-                System.getProperty("browser") :"firefox";
+                System.getProperty("browser") :"chrome";
 
         if (browserName.contains("firefox")) {
             FirefoxOptions options = new FirefoxOptions();

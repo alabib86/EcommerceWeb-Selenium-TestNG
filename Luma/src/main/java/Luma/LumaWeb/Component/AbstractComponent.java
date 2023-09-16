@@ -29,7 +29,12 @@ public class AbstractComponent {
     private WebElement createAccountPageBtn;
     @FindBy(linkText = "Sign In")
     private WebElement signInPageBtn;
-
+    @FindBy(partialLinkText = "Sign O")
+    private WebElement signOutBtn;
+    @FindBy(css = ".panel.header .logged-in")
+    private WebElement greetingMsg;
+    @FindBy(css = ".panel.header button.action.switch")
+    private WebElement accountArrowDropdown;
     @FindBy(id = "ui-id-4")
     private WebElement womenTab;
     @FindBy(id = "ui-id-10")
@@ -56,12 +61,13 @@ public class AbstractComponent {
     private WebElement cartItemCount;
     @FindBy(css = ".subtitle.empty")
     private WebElement cartEmptyMsg;
-    @FindBy(css = ".panel.header button.action.switch")
-    private WebElement accountArrowDropdown;
-    @FindBy(partialLinkText = "Sign O")
-    private WebElement signOutBtn;
-    @FindBy(css = ".panel.header .logged-in")
-    private WebElement greetingMsg;
+    @FindBy(css = ".viewcart")
+    private WebElement cartView;
+    //    @FindBy(css = ".mage-dropdown-dialog")
+//    private WebElement cartDropdownDialog;
+    @FindBy(id = "ui-id-1")
+    private WebElement cartDropdownDialog;
+
 
     By greetingMsgBy = By.cssSelector(".panel.header .logged-in");
     By greetingMsgNotLoggedBy = By.cssSelector(".not-logged-in");
@@ -128,12 +134,14 @@ public class AbstractComponent {
         signInPageBtn.click();
         return loginPage;
     }
+
     public void signOut() {
         waitTextToBe(greetingMsgBy, "Welcome, ahmed labib!");
         accountArrowDropdown.click();
         waitToAppearElement(signOutBtn);
         signOutBtn.click();
     }
+
     public String getGreetingMsg() {
         waitTextToBe(greetingMsgBy, "Welcome, ahmed labib!");
         return greetingMsg.getText();
@@ -190,12 +198,17 @@ public class AbstractComponent {
 
     public CartPage goToCartPage() {
         CartPage cartPage = new CartPage(driver);
+        goToCartDialog();
+//        waitAttributeToContains(cartDropdownDialog,"style","display: block;");
+        waitToAppearElement(cartDropdownDialog);
+        cartView.click();
         return cartPage;
     }
 
     public String getCartItemCount() {
         return cartItemCount.getText();
     }
+
     public String getCartEmptyMsg() {
         return cartEmptyMsg.getText();
     }
