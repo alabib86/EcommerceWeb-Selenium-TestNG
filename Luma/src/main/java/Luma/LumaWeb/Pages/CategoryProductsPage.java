@@ -8,6 +8,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,6 +39,8 @@ public class CategoryProductsPage extends AbstractComponent {
     private WebElement descBtn;
     @FindBy(css = ".action.sorter-action.sort-asc")
     private WebElement ascBtn;
+    @FindBy(css = ".action.tocart.primary")
+    private WebElement addToCartBtn;
     private By productPriceBy = By.cssSelector("span.price");
     private By productNameLinkBy = By.cssSelector("product-item-link");
 
@@ -95,7 +99,7 @@ public class CategoryProductsPage extends AbstractComponent {
 
     public boolean colorCheck(String color) {
         waitToAppearElement(driver.findElement(By.cssSelector(".swatch-option.color[tabindex='-1'][option-label='" + color + "']")));
-        driver.findElement(By.cssSelector(".swatch-option.color[tabindex='-1'][option-label='"+color+"']")).click();
+        driver.findElement(By.cssSelector(".swatch-option.color[tabindex='-1'][option-label='" + color + "']")).click();
         waitToAppearElements(productListResult);
         List<WebElement> colorLabel = driver.findElements(By.cssSelector(".swatch-option.color[tabindex='0'][option-label='" + color + "']"));
         boolean checked = colorLabel.stream().allMatch(w -> w.getAttribute("aria-checked").equals("true"));
@@ -129,9 +133,30 @@ public class CategoryProductsPage extends AbstractComponent {
         driver.findElement(By.cssSelector(".product-item-info")).click();
         return productPage;
     }
-    public int saleCheck(){
+
+    public int saleCheck() {
         driver.findElement(By.partialLinkText("Yes")).click();
-        List<WebElement> items =driver.findElements(By.cssSelector("ol.items:nth-child(2) .item"));
+        List<WebElement> items = driver.findElements(By.cssSelector("ol.items:nth-child(2) .item"));
         return items.size();
     }
+
+    public void addItemsToCart() {
+//        waitToAppearElements(productListResult);
+        String[] names = {"Hero Hoodie", "Frankie Sweatshirt", "Hollister Backyard Sweatshirt"};
+        List<String> itemNames= Arrays.asList(names);
+        int i = 0;
+        for (int x = 0; x < productListResult.size(); x++) {
+            String productName =productListResult.get(x).findElement(By.cssSelector(".product-item-link")).getText();
+            if (itemNames.contains(productName)) {
+                i++;
+                productListResult.get(x).findElement(By.cssSelector("#option-label-size-143-item-168")).click();
+                productListResult.get(x).findElement(By.cssSelector("#option-label-color-93-item-53")).click();
+                productListResult.get(x).findElement(By.cssSelector(".action.tocart.primary")).click();
+                if (i == names.length) {
+                    break;
+                }
+            }
+        }
+    }
+
 }

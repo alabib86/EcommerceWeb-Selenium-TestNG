@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class AbstractComponent {
     WebDriver driver;
@@ -63,10 +64,14 @@ public class AbstractComponent {
     private WebElement cartEmptyMsg;
     @FindBy(css = ".viewcart")
     private WebElement cartView;
-    //    @FindBy(css = ".mage-dropdown-dialog")
-//    private WebElement cartDropdownDialog;
     @FindBy(id = "ui-id-1")
     private WebElement cartDropdownDialog;
+    @FindBy(css = ".item.product.product-item[data-role='product-item']")
+    private List<WebElement> productListCartDialog;
+    @FindBy(css = ".action.delete")
+    private WebElement deleteIconCartDialog;
+    @FindBy(css = ".action-primary.action-accept")
+    private WebElement okBtnRemoveItemCart;
 
 
     By greetingMsgBy = By.cssSelector(".panel.header .logged-in");
@@ -78,6 +83,11 @@ public class AbstractComponent {
     public void waitToAppearElement(WebElement webElement) {
         WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
         webDriverWait.until(ExpectedConditions.visibilityOf(webElement));
+    }
+
+    public void waitToDisAppearElement(WebElement webElement) {
+        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        webDriverWait.until(ExpectedConditions.invisibilityOf(webElement));
     }
 
     public void waitToAppearElements(List<WebElement> list) {
@@ -114,9 +124,9 @@ public class AbstractComponent {
 
     // utilities
 
-    public int getRandomNumber() {
+    public int getRandomNumber(int bound) {
         Random random = new Random();
-        return random.nextInt(1000);
+        return random.nextInt(bound);
     }
 
     //  sign up
@@ -191,15 +201,14 @@ public class AbstractComponent {
 
     // cart
 
-    public void goToCartDialog() {
+    public void openCartDialog() {
         waitToAppearElement(cartIcon);
         cartIcon.click();
     }
 
     public CartPage goToCartPage() {
         CartPage cartPage = new CartPage(driver);
-        goToCartDialog();
-//        waitAttributeToContains(cartDropdownDialog,"style","display: block;");
+        openCartDialog();
         waitToAppearElement(cartDropdownDialog);
         cartView.click();
         return cartPage;
@@ -211,5 +220,22 @@ public class AbstractComponent {
 
     public String getCartEmptyMsg() {
         return cartEmptyMsg.getText();
+    }
+
+    public void removeProductFromCartDialog() {
+        waitToAppearElement(cartDropdownDialog);
+        long count = productListCartDialog.stream().count();
+        int x = 0;
+        for (int i = 0; i < count; i++) {
+            x++;
+            deleteIconCartDialog.click();
+            waitToAppearElement(okBtnRemoveItemCart);
+            okBtnRemoveItemCart.click();
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            wait.until(ExpectedConditions
+                    .numberOfElementsToBe(By.cssSelector(".item.product.product-item[data-role='product-item']")
+                            ,(int)count-x));
+        }
     }
 }

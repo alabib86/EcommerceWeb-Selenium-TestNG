@@ -66,7 +66,7 @@ public class SignUpLoginTCS extends BaseTest {
     public void ValidSignUpTC01007(HashMap<String, String> input)   {
         SignUpPage signUpPage = homePage.goToSignUpPage();
         AccountPage accountPage=signUpPage.createNewAccount(
-                input.get("firstName"), input.get("lastName"), "ahmed"+signUpPage.getRandomNumber()+"@gmail.com", input.get("password"), input.get("confirmPass"));
+                input.get("firstName"), input.get("lastName"), "ahmed"+signUpPage.getRandomNumber(1000)+"@gmail.com", input.get("password"), input.get("confirmPass"));
         Assert.assertEquals(accountPage.getAlertConfirmationMsg(),"Thank you for registering with Main Website Store.");
 
     }
