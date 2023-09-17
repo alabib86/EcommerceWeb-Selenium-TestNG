@@ -2,14 +2,14 @@ package Luma.LumaWeb.Modules;
 
 import Luma.LumaWeb.Component.BaseTest;
 import Luma.LumaWeb.Component.Retry;
+import Luma.LumaWeb.Pages.CartPage;
 import Luma.LumaWeb.Pages.CategoryProductsPage;
 import Luma.LumaWeb.Pages.LoginPage;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class CartCompareWishTCS extends BaseTest {
@@ -43,5 +43,46 @@ public class CartCompareWishTCS extends BaseTest {
         homePage.removeProductFromCartDialog();
         Assert.assertEquals(homePage.getCartEmptyMsg(), "You have no items in your shopping cart.");
     }
+
+    @Parameters({"email", "password"})
+    @Test(testName = "Validate user can see the item added in cart dialog when added")
+    public void ValidCartTC03004(String e, String p) {
+        LoginPage loginPage = homePage.goToLoginPage();
+        loginPage.login(e, p);
+        homePage.getGreetingMsg();
+        CategoryProductsPage categoryProductsPage = homePage.goToWatches();
+        categoryProductsPage.addItemToCart("Cruise Dual Analog Watch","","");
+        Assert.assertTrue(categoryProductsPage.checkExistItemInCartByName("Cruise Dual Analog Watch"));
+
+    }
+
+    @Parameters({"email", "password"})
+    @Test(testName = "Validate subtotal of each item ")
+    public void ValidCartTC03005(String e, String p) {
+        LoginPage loginPage = homePage.goToLoginPage();
+        loginPage.login(e, p);
+        homePage.getGreetingMsg();
+        CartPage cartPage=homePage.goToCartPage();
+        Assert.assertTrue(cartPage.checkItemSubtotal());
+    }
+    @Parameters({"email", "password"})
+    @Test(testName = "Validate subtotal of all order  ")
+    public void ValidCartTC03006(String e, String p) {
+        LoginPage loginPage = homePage.goToLoginPage();
+        loginPage.login(e, p);
+        homePage.getGreetingMsg();
+        CartPage cartPage=homePage.goToCartPage();
+        Assert.assertTrue(cartPage.checkOrderSubtotal());
+    }
+@Parameters({"email", "password"})
+    @Test(testName = "Validate order Total calculations  ")
+    public void ValidCartTC03007(String e, String p) {
+        LoginPage loginPage = homePage.goToLoginPage();
+        loginPage.login(e, p);
+        homePage.getGreetingMsg();
+        CartPage cartPage=homePage.goToCartPage();
+        Assert.assertTrue(cartPage.checkOrderTotal());
+    }
+
 
 }

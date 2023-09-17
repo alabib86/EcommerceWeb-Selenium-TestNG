@@ -64,10 +64,10 @@ public class BaseTest {
         return homePage;
     }
 
-    @AfterMethod
-    public void closeBrowser() {
-        driver.close();
-    }
+//    @AfterMethod
+//    public void closeBrowser() {
+//        driver.close();
+//    }
 
     @DataProvider
     public Object[][] getSignUpData() {
@@ -80,6 +80,27 @@ public class BaseTest {
         map.put("confirmPass", "Ahmed@123");
 
         Object[][] objects = new Object[][]{{map},};
+
+
+        return objects;
+    }
+    @DataProvider
+    public Object[][] getItemsData() {
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("productName", "Hero Hoodie");
+        map.put("color", "Black");
+        map.put("size", "M");
+        HashMap<String, String> map1 = new HashMap<>();
+        map.put("productName", "Frankie Sweatshirt");
+        map.put("color", "Green");
+        map.put("size", "S");
+        HashMap<String, String> map2 = new HashMap<>();
+        map.put("productName", "Oslo Trek Hoodie");
+        map.put("color", "Red");
+        map.put("size", "L");
+
+        Object[][] objects = new Object[][]{{map},{map1},{map2}};
 
 
         return objects;

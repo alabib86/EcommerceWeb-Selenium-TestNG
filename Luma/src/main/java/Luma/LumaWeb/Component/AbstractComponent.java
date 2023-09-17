@@ -235,7 +235,27 @@ public class AbstractComponent {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
             wait.until(ExpectedConditions
                     .numberOfElementsToBe(By.cssSelector(".item.product.product-item[data-role='product-item']")
-                            ,(int)count-x));
+                            , (int) count - x));
         }
+    }
+
+    public List getItemsCartDialog() {
+        waitToEnableElement(cartItemCount);
+        openCartDialog();
+        List<String> itemNames = productListCartDialog.stream()
+                .map(ele -> ele.findElement(By.cssSelector(".product-item-name")).getText()).collect(Collectors.toList());
+
+        return itemNames;
+    }
+
+    public boolean checkExistItemInCartByName(String itemName) {
+        List itemNames=getItemsCartDialog();
+        boolean check=false;
+        for (int i=0; i<itemNames.size();i++) {
+            if (itemNames.get(i).equals(itemName)) {
+                check= true;
+            }
+        }
+        return  check;
     }
 }

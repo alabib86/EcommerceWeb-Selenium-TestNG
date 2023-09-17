@@ -27,7 +27,7 @@ public class CategoryProductsPage extends AbstractComponent {
     private WebElement searchResultMsg;
     @FindBy(css = ".base")
     private WebElement categoryNameTitle;
-    @FindBy(css = ".item.product.product-item")
+    @FindBy(css = ".product-item-info")
     private List<WebElement> productListResult;
     @FindBy(css = ".filter-options-item")
     private List<WebElement> optionsList;
@@ -41,6 +41,8 @@ public class CategoryProductsPage extends AbstractComponent {
     private WebElement ascBtn;
     @FindBy(css = ".action.tocart.primary")
     private WebElement addToCartBtn;
+    @FindBy(css = ".message-success ")
+    private WebElement successMsgAddToCart;
     private By productPriceBy = By.cssSelector("span.price");
     private By productNameLinkBy = By.cssSelector("product-item-link");
 
@@ -141,12 +143,11 @@ public class CategoryProductsPage extends AbstractComponent {
     }
 
     public void addItemsToCart() {
-//        waitToAppearElements(productListResult);
         String[] names = {"Hero Hoodie", "Frankie Sweatshirt", "Hollister Backyard Sweatshirt"};
-        List<String> itemNames= Arrays.asList(names);
+        List<String> itemNames = Arrays.asList(names);
         int i = 0;
         for (int x = 0; x < productListResult.size(); x++) {
-            String productName =productListResult.get(x).findElement(By.cssSelector(".product-item-link")).getText();
+            String productName = productListResult.get(x).findElement(By.cssSelector(".product-item-link")).getText();
             if (itemNames.contains(productName)) {
                 i++;
                 productListResult.get(x).findElement(By.cssSelector("#option-label-size-143-item-168")).click();
@@ -158,5 +159,30 @@ public class CategoryProductsPage extends AbstractComponent {
             }
         }
     }
+
+    public void addItemToCart(String itemName, String size, String color) {
+        for (int x = 0; x < productListResult.size(); x++) {
+
+            WebElement product = productListResult.get(x);
+            WebElement pName = product.findElement(By.cssSelector(".product-item-link"));
+            WebElement pAdd = product.findElement(By.cssSelector(".action.tocart.primary"));
+
+            if (itemName.equalsIgnoreCase(pName.getText())) {
+                if (!size.isEmpty()) {
+                    WebElement pSize = product.findElement(By.cssSelector(".swatch-option.text[aria-label='" + size + "']"));
+                    pSize.click();
+                }
+                if (!color.isEmpty()) {
+                    WebElement pColor = product.findElement(By.cssSelector(".swatch-option.color[aria-label='" + color + "']"));
+                    pColor.click();
+                }
+                moveToElement(product);
+                waitToEnableElement(pAdd);
+                pAdd.click();
+                waitToAppearElement(successMsgAddToCart);
+            }
+        }
+    }
+
 
 }

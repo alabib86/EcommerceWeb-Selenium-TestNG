@@ -4,6 +4,8 @@
     <listeners>
         <listener class-name="Luma.LumaWeb.Component.Listeners"/>
     </listeners>
+    <parameter name="email" value="testerjob86@gmail.com"/>
+    <parameter name="password" value="Ahmed@123"/>
     <test name="User Acceptance TCS">
         <classes>
             <class name="Luma.LumaWeb.Modules.CartCompareWishTCS"/>
