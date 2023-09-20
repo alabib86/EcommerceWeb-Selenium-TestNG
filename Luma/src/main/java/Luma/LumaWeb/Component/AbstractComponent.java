@@ -1,9 +1,6 @@
 package Luma.LumaWeb.Component;
 
-import Luma.LumaWeb.Pages.CartPage;
-import Luma.LumaWeb.Pages.CategoryProductsPage;
-import Luma.LumaWeb.Pages.LoginPage;
-import Luma.LumaWeb.Pages.SignUpPage;
+import Luma.LumaWeb.Pages.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -72,6 +69,8 @@ public class AbstractComponent {
     private WebElement deleteIconCartDialog;
     @FindBy(css = ".action-primary.action-accept")
     private WebElement okBtnRemoveItemCart;
+    @FindBy(partialLinkText = "My Wish Li")
+    private WebElement myWishListLink;
 
 
     By greetingMsgBy = By.cssSelector(".panel.header .logged-in");
@@ -249,13 +248,24 @@ public class AbstractComponent {
     }
 
     public boolean checkExistItemInCartByName(String itemName) {
-        List itemNames=getItemsCartDialog();
-        boolean check=false;
-        for (int i=0; i<itemNames.size();i++) {
+        List itemNames = getItemsCartDialog();
+        boolean check = false;
+        for (int i = 0; i < itemNames.size(); i++) {
             if (itemNames.get(i).equals(itemName)) {
-                check= true;
+                check = true;
             }
         }
-        return  check;
+        return check;
+    }
+
+    // wishlist
+
+    public WishListPage goToWishList() {
+        WishListPage wishListPage=new WishListPage(driver);
+        getGreetingMsg();
+        accountArrowDropdown.click();
+        waitToAppearElement(myWishListLink);
+        myWishListLink.click();
+        return wishListPage;
     }
 }

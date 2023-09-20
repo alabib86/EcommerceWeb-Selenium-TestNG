@@ -2,12 +2,11 @@ package Luma.LumaWeb.Modules;
 
 import Luma.LumaWeb.Component.BaseTest;
 import Luma.LumaWeb.Component.Retry;
-import Luma.LumaWeb.Pages.CartPage;
-import Luma.LumaWeb.Pages.CategoryProductsPage;
-import Luma.LumaWeb.Pages.LoginPage;
+import Luma.LumaWeb.Pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.HashMap;
 
@@ -51,7 +50,7 @@ public class CartCompareWishTCS extends BaseTest {
         loginPage.login(e, p);
         homePage.getGreetingMsg();
         CategoryProductsPage categoryProductsPage = homePage.goToWatches();
-        categoryProductsPage.addItemToCart("Cruise Dual Analog Watch","","");
+        categoryProductsPage.addItemToCart("Cruise Dual Analog Watch", "", "");
         Assert.assertTrue(categoryProductsPage.checkExistItemInCartByName("Cruise Dual Analog Watch"));
 
     }
@@ -62,26 +61,67 @@ public class CartCompareWishTCS extends BaseTest {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
         homePage.getGreetingMsg();
-        CartPage cartPage=homePage.goToCartPage();
+        CartPage cartPage = homePage.goToCartPage();
         Assert.assertTrue(cartPage.checkItemSubtotal());
     }
+
     @Parameters({"email", "password"})
     @Test(testName = "Validate subtotal of all order  ")
     public void ValidCartTC03006(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
         homePage.getGreetingMsg();
-        CartPage cartPage=homePage.goToCartPage();
+        CartPage cartPage = homePage.goToCartPage();
         Assert.assertTrue(cartPage.checkOrderSubtotal());
     }
-@Parameters({"email", "password"})
+
+    @Parameters({"email", "password"})
     @Test(testName = "Validate order Total calculations  ")
     public void ValidCartTC03007(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
         homePage.getGreetingMsg();
-        CartPage cartPage=homePage.goToCartPage();
+        CartPage cartPage = homePage.goToCartPage();
         Assert.assertTrue(cartPage.checkOrderTotal());
+    }
+
+    @Parameters({"email", "password"})
+    @Test(testName = "Validate user can add item to wishlist  ")
+    public void ValidCartTC03008(String e, String p) {
+        LoginPage loginPage = homePage.goToLoginPage();
+        loginPage.login(e, p);
+        homePage.getGreetingMsg();
+        CategoryProductsPage categoryProductsPage = homePage.goToWatches();
+        WishListPage wishListPage = categoryProductsPage.addItemToWishList("Dash Digital Watch");
+        Assert.assertTrue(wishListPage.getPageMessage().contains("Dash Digital Watch"));
+    }
+
+    @Parameters({"email", "password"})
+    @Test(testName = "Validate user can delete item from wishlist  ", dependsOnMethods = "ValidCartTC03008")
+    public void ValidCartTC03009(String e, String p) {
+        LoginPage loginPage = homePage.goToLoginPage();
+        loginPage.login(e, p);
+        homePage.getGreetingMsg();
+        WishListPage wishListPage = homePage.goToWishList();
+        wishListPage.deleteItemFromWishList("Dash Digital Watch");
+        Assert.assertTrue(wishListPage.getPageMessage().contains("Dash Digital Watch has been removed from your Wish List."));
+    }
+
+    @Parameters({"email", "password"})
+    @Test(testName = "Validate user can add item from compare list  ")
+    public void ValidCartTC03010(String e, String p) {
+        SoftAssert sf = new SoftAssert();
+        LoginPage loginPage = homePage.goToLoginPage();
+        loginPage.login(e, p);
+        homePage.getGreetingMsg();
+        CategoryProductsPage categoryProductsPage = homePage.goToWatches();
+        sf.assertEquals(categoryProductsPage
+                .addItemToCompareList("Summit Watch"), "You added product Summit Watch to the ");
+        sf.assertEquals(categoryProductsPage
+                .addItemToCompareList("Luma Analog Watch"), "You added product Luma Analog Watch to the ");
+        CompareListPage compareListPage = categoryProductsPage.goToCompareList();
+        String[] names = {"Luma Analog Watch", "Summit Watch"};
+        Assert.assertTrue(compareListPage.checkExistingProduct(names));
     }
 
 

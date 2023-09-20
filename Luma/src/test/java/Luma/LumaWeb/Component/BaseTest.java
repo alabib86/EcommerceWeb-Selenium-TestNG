@@ -21,7 +21,6 @@ public class BaseTest {
     public HomePage homePage;
     public void initializeDriver(){
 
-
         String browserName = System.getProperty("browser") != null ?
                 System.getProperty("browser") :"chrome";
 
@@ -64,10 +63,10 @@ public class BaseTest {
         return homePage;
     }
 
-//    @AfterMethod
-//    public void closeBrowser() {
-//        driver.close();
-//    }
+    @AfterMethod
+    public void closeBrowser() {
+        driver.close();
+    }
 
     @DataProvider
     public Object[][] getSignUpData() {

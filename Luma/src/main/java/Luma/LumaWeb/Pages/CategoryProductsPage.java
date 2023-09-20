@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -43,6 +42,12 @@ public class CategoryProductsPage extends AbstractComponent {
     private WebElement addToCartBtn;
     @FindBy(css = ".message-success ")
     private WebElement successMsgAddToCart;
+    @FindBy(css = ".towishlist")
+    private WebElement productToWishListIcon;
+    @FindBy(css = ".page")
+    private WebElement pageMessage;
+    @FindBy(css = ".header .action.compare")
+    private WebElement compareListLink;
     private By productPriceBy = By.cssSelector("span.price");
     private By productNameLinkBy = By.cssSelector("product-item-link");
 
@@ -184,5 +189,45 @@ public class CategoryProductsPage extends AbstractComponent {
         }
     }
 
+    public WishListPage addItemToWishList(String itemName) {
+        WishListPage wishListPage = new WishListPage(driver);
+        for (int x = 0; x < productListResult.size(); x++) {
+
+            WebElement product = productListResult.get(x);
+            WebElement pName = product.findElement(By.cssSelector(".product-item-link"));
+            WebElement pAdd = product.findElement(By.cssSelector(".towishlist"));
+
+            if (itemName.equalsIgnoreCase(pName.getText())) {
+                moveToElement(product);
+                waitToEnableElement(pAdd);
+                pAdd.click();
+            }
+        }
+        return wishListPage;
+    }
+
+    public String addItemToCompareList(String itemName) {
+        for (int x = 0; x < productListResult.size(); x++) {
+
+            WebElement product = productListResult.get(x);
+            WebElement pName = product.findElement(By.cssSelector(".product-item-link"));
+            WebElement pAdd = product.findElement(By.cssSelector(".tocompare"));
+
+            if (itemName.equalsIgnoreCase(pName.getText())) {
+                moveToElement(product);
+                waitToEnableElement(pAdd);
+                pAdd.click();
+                waitToAppearElement(pageMessage);
+            }
+        }
+        return pageMessage.getText();
+    }
+
+    public CompareListPage goToCompareList(){
+        CompareListPage compareListPage = new CompareListPage(driver);
+        waitToAppearElement(compareListLink);
+        compareListLink.click();
+        return compareListPage;
+    }
 
 }
