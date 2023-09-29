@@ -12,7 +12,8 @@ import java.util.HashMap;
 
 
 public class CartCompareWishTCS extends BaseTest {
-    @Test(testName = "Validate user get proper message for empty cart when open cart dialog", dataProvider = "getSignUpData")
+    @Test(testName = "Validate user get proper message for empty cart when open cart dialog",
+            dataProvider = "getSignUpData",groups = {"RegressionTest"})
     public void ValidCartTC03001(HashMap<String, String> input) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(input.get("email"), input.get("password"));
@@ -23,7 +24,7 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Test(testName = "Validate user can add items to the cart from products categories",
-            dataProvider = "getSignUpData")
+            dataProvider = "getSignUpData",groups = {"RegressionTest"})
     public void ValidCartTC03002(HashMap<String, String> input) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(input.get("email"), input.get("password"));
@@ -33,7 +34,8 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Test(testName = "Validate user can remove all item from cart dialog",
-            dataProvider = "getSignUpData", dependsOnMethods = "ValidCartTC03002", retryAnalyzer = Retry.class)
+            dataProvider = "getSignUpData", dependsOnMethods = {"ValidCartTC03002"}, retryAnalyzer = Retry.class
+            ,groups = {"RegressionTest"})
     public void ValidCartTC03003(HashMap<String, String> input) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(input.get("email"), input.get("password"));
@@ -44,7 +46,7 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Parameters({"email", "password"})
-    @Test(testName = "Validate user can see the item added in cart dialog when added")
+    @Test(testName = "Validate user can see the item added in cart dialog when added",groups = {"RegressionTest"})
     public void ValidCartTC03004(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
@@ -56,7 +58,7 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Parameters({"email", "password"})
-    @Test(testName = "Validate subtotal of each item ")
+    @Test(testName = "Validate subtotal of each item ",groups = {"RegressionTest"})
     public void ValidCartTC03005(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
@@ -66,7 +68,7 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Parameters({"email", "password"})
-    @Test(testName = "Validate subtotal of all order  ")
+    @Test(testName = "Validate subtotal of all order  ",groups = {"RegressionTest"})
     public void ValidCartTC03006(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
@@ -76,7 +78,7 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Parameters({"email", "password"})
-    @Test(testName = "Validate order Total calculations  ")
+    @Test(testName = "Validate order Total calculations  ",groups = {"RegressionTest"})
     public void ValidCartTC03007(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
@@ -86,7 +88,7 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Parameters({"email", "password"})
-    @Test(testName = "Validate user can add item to wishlist  ")
+    @Test(testName = "Validate user can add item to wishlist  ",groups = {"RegressionTest"})
     public void ValidCartTC03008(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
@@ -97,7 +99,8 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Parameters({"email", "password"})
-    @Test(testName = "Validate user can delete item from wishlist  ", dependsOnMethods = "ValidCartTC03008")
+    @Test(testName = "Validate user can delete item from wishlist  ", dependsOnMethods = {"ValidCartTC03008"}
+            ,groups = {"RegressionTest"})
     public void ValidCartTC03009(String e, String p) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(e, p);
@@ -108,7 +111,7 @@ public class CartCompareWishTCS extends BaseTest {
     }
 
     @Parameters({"email", "password"})
-    @Test(testName = "Validate user can add item from compare list  ")
+    @Test(testName = "Validate user can add item from compare list  ",groups = {"RegressionTest"})
     public void ValidCartTC03010(String e, String p) {
         SoftAssert sf = new SoftAssert();
         LoginPage loginPage = homePage.goToLoginPage();

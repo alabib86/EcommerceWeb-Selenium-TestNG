@@ -53,7 +53,7 @@ public class BaseTest {
         driver.manage().window().maximize();
     }
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public HomePage lunchWebApp(){
 
         initializeDriver();
@@ -63,7 +63,7 @@ public class BaseTest {
         return homePage;
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser() {
         driver.close();
     }

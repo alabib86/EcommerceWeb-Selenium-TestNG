@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Regression">
+    <listeners>
+        <listener class-name="Luma.LumaWeb.Component.Listeners"/>
+    </listeners>
+    <parameter name="email" value="testerjob86@gmail.com"/>
+    <parameter name="password" value="Ahmed@123"/>
+    <test name="Regression">
+        <groups>
+            <run>
+                <include name="RegressionTest"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="Luma.LumaWeb.Modules.SignUpLoginTCS"/>
+            <class name="Luma.LumaWeb.Modules.CartCompareWishTCS"/>
+            <class name="Luma.LumaWeb.Modules.CheckOutPayment"/>
+            <class name="Luma.LumaWeb.Modules.ProductFilteringSorting"/>
+        </classes>
+    </test>
+</suite>

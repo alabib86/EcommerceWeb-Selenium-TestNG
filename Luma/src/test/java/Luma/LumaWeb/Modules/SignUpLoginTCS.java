@@ -62,7 +62,7 @@ public class SignUpLoginTCS extends BaseTest {
         Assert.assertEquals(signUpPage.getConfirmPassErrorMsg(), "Please enter the same value again.");
     }
 
-    @Test(testName = "validate user can SignUp with Valid data", dataProvider = "getSignUpData")
+    @Test(testName = "validate user can SignUp with Valid data", dataProvider = "getSignUpData",groups = {"RegressionTest"})
     public void ValidSignUpTC01007(HashMap<String, String> input)   {
         SignUpPage signUpPage = homePage.goToSignUpPage();
         AccountPage accountPage=signUpPage.createNewAccount(
@@ -92,20 +92,20 @@ public class SignUpLoginTCS extends BaseTest {
         Assert.assertEquals(loginPage.getErrorPasswordMsgLogin(), "This is a required field.");
     }
 
-    @Test(testName = "Validate user can login with valid email &  password",dataProvider = "getSignUpData")
+    @Test(testName = "Validate user can login with valid email &  password",dataProvider = "getSignUpData",groups = {"RegressionTest"})
     public void ValidLoginTC01011(HashMap<String,String>input) {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(input.get("email"), input.get("password"));
         Assert.assertEquals(homePage.getGreetingMsg(), "Welcome, ahmed labib!");
     }
 
-    @Test(testName = "Validate user can go to signUp page from login Page")
+    @Test(testName = "Validate user can go to signUp page from login Page",groups = {"RegressionTest"})
     public void ValidLoginTC01012() {
         LoginPage loginPage = homePage.goToLoginPage();
         SignUpPage signUpPage=loginPage.goToCreateAccountPage();
         Assert.assertEquals(signUpPage.getPageTitleLbl(), "Create New Customer Account");
     }
-    @Test(testName = "Validate user can log out from his account",dataProvider = "getSignUpData")
+    @Test(testName = "Validate user can log out from his account",dataProvider = "getSignUpData",groups = {"RegressionTest"})
     public void ValidLoginTC01013(HashMap<String,String>input)   {
         LoginPage loginPage = homePage.goToLoginPage();
         loginPage.login(input.get("email"), input.get("password"));
